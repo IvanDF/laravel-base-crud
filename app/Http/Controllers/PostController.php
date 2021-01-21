@@ -27,7 +27,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view('posts.create');
     }
 
     /**
@@ -38,7 +38,28 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
+        $data = $request->all();
 
+        // Validation
+        $request->validate([
+            'title' => 'required|unique:posts|max:30',
+            'description' => 'required',
+            'short_description' => 'required|max:255',
+            'author' => 'required|max:100',
+        ]);
+
+        $post = new Post();
+        $post->title = $data['title'];
+        $post->description = $data['description'];
+        $post->short_description = $data['short_description'];
+        $post->author = $data['author'];
+
+        $saved = $post->save();
+        
+        if($saved) {
+            return redirect()->route('posts.show', $post->id);
+        }
     }
 
     /**
@@ -47,9 +68,11 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Post $post)
     {
-        return('ciaone ' . $id);
+        // $post = Post::find($id);
+
+        return view('posts.show', compact('post'));
 
     }
 

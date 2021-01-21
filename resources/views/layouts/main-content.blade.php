@@ -17,7 +17,7 @@
         @include('partials.main-header')
     
         <!-- Main content -->
-        <main class="mainSection is-flex-grow-1">
+        <main class="mainSection is-flex-grow-1 has-background-success-light">
             @yield('main-content')
         </main>
 

@@ -10158,5 +10158,9 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
 #app {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  min-height: 100vh;
+}
+
+main {
+  padding-bottom: 100px;
 }
