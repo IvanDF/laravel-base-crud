@@ -38,7 +38,7 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
     }
 
     /**
@@ -49,7 +49,8 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        //
+        return('ciaone ' . $id);
+
     }
 
     /**

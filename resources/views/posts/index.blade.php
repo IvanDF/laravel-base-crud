@@ -1,11 +1,11 @@
 @extends('layouts.main-content')
 
 @section('main-content')
-    <ul>
+    <div class="container">
         @foreach ($posts as $post)
-            <div class="card">
+            <div class="card mt-5 has-text-info-dark has-background-link-light">
                 <header class="card-header">
-                    <p class="card-header-title">
+                    <p class="card-header-title is-size-3">
                         {{$post['title']}}
                     </p>
                     <a href="#" class="card-header-icon" aria-label="more options">
@@ -15,19 +15,18 @@
                     </a>
                 </header>
                 <div class="card-content">
-                    <div class="content">
-                        {{$post['description']}}
-                    <a href="#">@bulmaio</a>. <a href="#">#css</a> <a href="#">#responsive</a>
+                    <div class="content has-text-weight-medium is-size-4">
+                        {{$post['short_description']}}
                     <br>
-                    <time datetime="2016-1-1">{{$post['author']}}</time>
+                    <small class="is-italic is-size-6">{{$post['author']}}</small>
                     </div>
                 </div>
-                <footer class="card-footer">
-                    <a href="#" class="card-footer-item">Save</a>
+                <footer class="card-footer has-text-weight-bold">
+                    <a href="{{ route('posts.show',$post['id'])}}" class="card-footer-item has-text-primary-dark">View</a>
                     <a href="#" class="card-footer-item">Edit</a>
-                    <a href="#" class="card-footer-item">Delete</a>
+                    <a href="#" class="card-footer-item has-text-danger">Delete</a>
                 </footer>
             </div>
         @endforeach
-    </ul>
+    </div>
 @endsection
