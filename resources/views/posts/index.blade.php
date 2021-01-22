@@ -2,6 +2,13 @@
 
 @section('main-content')
     <div class="container">
+        @if (session('deleted'))
+            <div class="message-danger">
+                <div class="notification is-danger is-light">
+                    {{session('deleted')}} Eliminato con successo
+                </div>
+            </div>
+        @endif
         @foreach ($posts as $post)
             <div class="card mt-5 has-text-info-dark has-background-link-light">
                 <header class="card-header">
@@ -22,9 +29,15 @@
                     </div>
                 </div>
                 <footer class="card-footer has-text-weight-bold">
-                    <a href="{{ route('posts.show',$post['id'])}}" class="card-footer-item has-text-primary-dark">View</a>
-                    <a href="#" class="card-footer-item">Edit</a>
-                    <a href="#" class="card-footer-item has-text-danger">Delete</a>
+                    <a href="{{ route('posts.show', $post['id'])}}" class="card-footer-item has-text-primary-dark">View</a>
+                    <a href="{{ route('posts.edit', $post['id'])}}" class="card-footer-item">Edit</a>
+                    <a href="#" class="card-footer-item has-text-danger">
+                        <form action="{{ route('posts.destroy', $post->id) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                                <input class="card-footer-item has-text-danger" href="#" type="submit" value="Delete">
+                        </form>
+                    </a>
                 </footer>
             </div>
         @endforeach

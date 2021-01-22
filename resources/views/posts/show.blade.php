@@ -18,7 +18,7 @@
             <div class="content">
             {{ $post['description'] }}
             <br>
-            <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+            <time datetime="2016-1-1">{{$post['created_at']}}</time>
             </div>
         </div>
     </div>

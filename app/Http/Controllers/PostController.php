@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use App\Post;
 
 class PostController extends Controller
@@ -50,10 +51,11 @@ class PostController extends Controller
         ]);
 
         $post = new Post();
-        $post->title = $data['title'];
-        $post->description = $data['description'];
-        $post->short_description = $data['short_description'];
-        $post->author = $data['author'];
+        // $post->title = $data['title'];
+        // $post->description = $data['description'];
+        // $post->short_description = $data['short_description'];
+        // $post->author = $data['author'];
+        $post->fill($data);
 
         $saved = $post->save();
         
@@ -84,7 +86,9 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        //
+        $post = Post::find($id);
+
+        return view('posts.edit', compact('post'));
     }
 
     /**
@@ -96,7 +100,31 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // Dati inviati dalla form
+        $data = $request->all();
+
+        // Istanza specifica
+        $post = Post::find($id);
+
+        // Validation
+        $request->validate([
+            'title' => [
+                'required',
+                Rule::unique('posts')->ignore($id),
+                'max:30',
+            ],
+            'description' => 'required',
+            'short_description' => 'required|max:255',
+            'author' => 'required|max:100',
+        ]);
+
+        // Aggiorno i dati DB
+        $updated = $post->update($data);
+
+        if ($updated) {
+            return redirect()->route('posts.show', $post->id);
+        }
+
     }
 
     /**
@@ -107,6 +135,13 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $post = Post::find($id);
+
+        $ref = $post->title;
+        $deleted = $post->delete();
+
+        if($deleted) {
+            return redirect()->route('posts.index')->with('deleted', $ref);
+        }
     }
 }
